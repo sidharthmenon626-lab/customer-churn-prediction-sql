@@ -1,8 +1,8 @@
 ﻿-- ============================================================================
--- Customer Churn Cohort Extraction Query
+-- Customer Churn Cohort Extraction Query (Audited & Leak-Free)
 -- Database: PostgreSQL (saas schema)
 -- Purpose: Extract account-level transactional, billing, behavioral, and 
---          support interaction features for churn prediction modeling.
+--          support interaction features with strict temporal hygiene.
 -- ============================================================================
 
 SET search_path TO saas;
@@ -12,7 +12,13 @@ WITH latest_sub AS (
     SELECT DISTINCT ON (account_id)
         subscription_id,
         account_id,
-        LOWER(TRIM(plan)) as plan,
+        CASE 
+            WHEN LOWER(TRIM(plan)) IN ('pro', 'professional') THEN 'pro'
+            WHEN LOWER(TRIM(plan)) = 'enterprise' THEN 'enterprise'
+            WHEN LOWER(TRIM(plan)) = 'starter' THEN 'starter'
+            WHEN LOWER(TRIM(plan)) = 'free' THEN 'free'
+            ELSE LOWER(TRIM(plan))
+        END as plan,
         mrr,
         COALESCE(seat_count, 1) as seat_count,
         status as subscription_status,
@@ -30,39 +36,45 @@ WITH latest_sub AS (
         start_date DESC
 ),
 ticket_metrics AS (
-    -- Aggregate customer support interactions and distress signals
+    -- Aggregate customer support interactions strictly BEFORE cancellation
     SELECT 
-        account_id,
-        COUNT(ticket_id) as total_tickets,
-        COALESCE(AVG(csat), 0) as avg_csat,
-        COUNT(CASE WHEN priority IN ('urgent', 'high') THEN 1 END) as urgent_tickets,
-        COUNT(CASE WHEN category = 'billing' THEN 1 END) as billing_tickets
-    FROM saas.support_tickets
-    GROUP BY account_id
+        t.account_id,
+        COUNT(t.ticket_id) as total_tickets,
+        ROUND(COALESCE(AVG(t.csat), 0)::numeric, 2) as avg_csat,
+        COUNT(CASE WHEN t.priority IN ('urgent', 'high') THEN 1 END) as urgent_tickets,
+        COUNT(CASE WHEN t.category = 'billing' THEN 1 END) as billing_tickets
+    FROM saas.support_tickets t
+    JOIN latest_sub s ON t.account_id = s.account_id
+    WHERE s.cancelled_at IS NULL OR t.opened_at <= s.cancelled_at
+    GROUP BY t.account_id
 ),
 payment_metrics AS (
-    -- Aggregate invoice payment attempts and friction metrics
+    -- Aggregate payment attempts strictly BEFORE cancellation (prevents post-churn retry leakage)
     SELECT 
-        account_id,
-        COUNT(attempt_id) as total_payment_attempts,
-        COUNT(CASE WHEN status = 'failed' THEN 1 END) as failed_payment_attempts,
-        COALESCE(SUM(CASE WHEN status = 'failed' THEN amount ELSE 0 END), 0) as failed_payment_amount
-    FROM saas.payment_attempts
-    GROUP BY account_id
+        p.account_id,
+        COUNT(p.attempt_id) as total_payment_attempts,
+        COUNT(CASE WHEN p.status = 'failed' THEN 1 END) as failed_payment_attempts,
+        ROUND(COALESCE(SUM(CASE WHEN p.status = 'failed' THEN p.amount ELSE 0 END), 0)::numeric, 2) as failed_payment_amount
+    FROM saas.payment_attempts p
+    JOIN latest_sub s ON p.account_id = s.account_id
+    WHERE s.cancelled_at IS NULL OR p.attempted_at <= s.cancelled_at
+    GROUP BY p.account_id
 ),
 event_metrics AS (
-    -- Aggregate product engagement and feature adoption signals
+    -- Aggregate product engagement strictly BEFORE cancellation (prevents post-churn activity leakage)
     SELECT 
-        account_id,
-        COUNT(event_id) as total_events,
-        COUNT(CASE WHEN event_type = 'login' THEN 1 END) as login_count,
-        COUNT(CASE WHEN event_type = 'feature_use' THEN 1 END) as feature_use_count,
-        COUNT(CASE WHEN event_type = 'api_call' THEN 1 END) as api_call_count,
-        COUNT(CASE WHEN event_type = 'export' THEN 1 END) as export_count,
-        COUNT(CASE WHEN event_type = 'dashboard_view' THEN 1 END) as dashboard_view_count,
-        MAX(occurred_at) as last_event_time
-    FROM saas.events
-    GROUP BY account_id
+        e.account_id,
+        COUNT(e.event_id) as total_events,
+        COUNT(CASE WHEN e.event_type = 'login' THEN 1 END) as login_count,
+        COUNT(CASE WHEN e.event_type = 'feature_use' THEN 1 END) as feature_use_count,
+        COUNT(CASE WHEN e.event_type = 'api_call' THEN 1 END) as api_call_count,
+        COUNT(CASE WHEN e.event_type = 'export' THEN 1 END) as export_count,
+        COUNT(CASE WHEN e.event_type = 'dashboard_view' THEN 1 END) as dashboard_view_count,
+        MAX(e.occurred_at) as last_event_time
+    FROM saas.events e
+    JOIN latest_sub s ON e.account_id = s.account_id
+    WHERE s.cancelled_at IS NULL OR e.occurred_at <= s.cancelled_at
+    GROUP BY e.account_id
 ),
 user_metrics AS (
     -- Aggregate provisioned seat adoption and login activity
@@ -77,11 +89,14 @@ SELECT
     a.account_id,
     a.name as company_name,
     COALESCE(a.account_type, 'self_serve') as account_type,
-    COALESCE(a.industry, 'Technology') as industry,
+    COALESCE(LOWER(TRIM(a.industry)), 'unknown') as industry,
     COALESCE(a.employee_count, 1) as employee_count,
-    COALESCE(a.country, 'United States') as country,
+    CASE 
+        WHEN a.country = 'US' THEN 'United States'
+        ELSE COALESCE(a.country, 'Unknown')
+    END as country,
     a.signup_date,
-    COALESCE(a.acquisition_channel, 'organic') as acquisition_channel,
+    COALESCE(LOWER(TRIM(a.acquisition_channel)), 'unknown') as acquisition_channel,
     
     -- Subscription attributes
     s.subscription_id,
@@ -92,25 +107,25 @@ SELECT
     s.subscription_start_date,
     s.cancelled_at,
     
-    -- Ground Truth Churn Target
+    -- Ground Truth Churn Target (1 = Churned, 0 = Active)
     CASE 
         WHEN s.subscription_status = 'churned' THEN 1
         WHEN s.subscription_status = 'active' THEN 0
         ELSE NULL
     END as churn,
     
-    -- Support distress metrics
+    -- Support distress metrics (clean zeros if no tickets)
     COALESCE(t.total_tickets, 0) as total_tickets,
-    ROUND(COALESCE(t.avg_csat, 0)::numeric, 2) as avg_csat,
+    COALESCE(t.avg_csat, 0) as avg_csat,
     COALESCE(t.urgent_tickets, 0) as urgent_tickets,
     COALESCE(t.billing_tickets, 0) as billing_tickets,
     
-    -- Payment friction metrics
+    -- Payment friction metrics (clean zeros if no attempts/failures)
     COALESCE(p.total_payment_attempts, 0) as total_payment_attempts,
     COALESCE(p.failed_payment_attempts, 0) as failed_payment_attempts,
-    ROUND(COALESCE(p.failed_payment_amount, 0)::numeric, 2) as failed_payment_amount,
+    COALESCE(p.failed_payment_amount, 0) as failed_payment_amount,
     
-    -- Engagement signals
+    -- Engagement signals (clean zeros if no events)
     COALESCE(e.total_events, 0) as total_events,
     COALESCE(e.login_count, 0) as login_count,
     COALESCE(e.feature_use_count, 0) as feature_use_count,

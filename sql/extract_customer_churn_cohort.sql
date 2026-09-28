@@ -1,148 +1,150 @@
-﻿-- ============================================================================
--- Customer Churn Cohort Extraction Query (Audited & Leak-Free)
--- Database: PostgreSQL (saas schema)
--- Purpose: Extract account-level transactional, billing, behavioral, and 
---          support interaction features with strict temporal hygiene.
--- ============================================================================
+/*
+question number: milestone 2 - customer churn cohort extraction
+business question: can we extract a clean, leak-free account-level cohort from postgresql to predict customer churn 30 days prior to cancellation?
+owner: sidharth menon (lead data analyst)
+last updated: 2026-09-28
+sanity-check assertion: total accounts = 859 (624 active, 235 churned); zero events, tickets, or payment attempts after cancelled_at.
+*/
 
-SET search_path TO saas;
+set search_path to saas;
 
-WITH latest_sub AS (
-    -- Identify the primary subscription per account with deterministic status priority
-    SELECT DISTINCT ON (account_id)
-        subscription_id,
-        account_id,
-        CASE 
-            WHEN LOWER(TRIM(plan)) IN ('pro', 'professional') THEN 'pro'
-            WHEN LOWER(TRIM(plan)) = 'enterprise' THEN 'enterprise'
-            WHEN LOWER(TRIM(plan)) = 'starter' THEN 'starter'
-            WHEN LOWER(TRIM(plan)) = 'free' THEN 'free'
-            ELSE LOWER(TRIM(plan))
-        END as plan,
-        mrr,
-        COALESCE(seat_count, 1) as seat_count,
-        status as subscription_status,
-        start_date as subscription_start_date,
-        cancelled_at,
-        cancellation_reason
-    FROM saas.subscriptions
-    ORDER BY account_id, 
-        CASE 
-            WHEN status = 'active' THEN 1 
-            WHEN status = 'churned' THEN 2 
-            WHEN status = 'past_due' THEN 3
-            ELSE 4 
-        END,
-        start_date DESC
-),
-ticket_metrics AS (
-    -- Aggregate customer support interactions strictly BEFORE cancellation
-    SELECT 
-        t.account_id,
-        COUNT(t.ticket_id) as total_tickets,
-        ROUND(COALESCE(AVG(t.csat), 0)::numeric, 2) as avg_csat,
-        COUNT(CASE WHEN t.priority IN ('urgent', 'high') THEN 1 END) as urgent_tickets,
-        COUNT(CASE WHEN t.category = 'billing' THEN 1 END) as billing_tickets
-    FROM saas.support_tickets t
-    JOIN latest_sub s ON t.account_id = s.account_id
-    WHERE s.cancelled_at IS NULL OR t.opened_at <= s.cancelled_at
-    GROUP BY t.account_id
-),
-payment_metrics AS (
-    -- Aggregate payment attempts strictly BEFORE cancellation (prevents post-churn retry leakage)
-    SELECT 
-        p.account_id,
-        COUNT(p.attempt_id) as total_payment_attempts,
-        COUNT(CASE WHEN p.status = 'failed' THEN 1 END) as failed_payment_attempts,
-        ROUND(COALESCE(SUM(CASE WHEN p.status = 'failed' THEN p.amount ELSE 0 END), 0)::numeric, 2) as failed_payment_amount
-    FROM saas.payment_attempts p
-    JOIN latest_sub s ON p.account_id = s.account_id
-    WHERE s.cancelled_at IS NULL OR p.attempted_at <= s.cancelled_at
-    GROUP BY p.account_id
-),
-event_metrics AS (
-    -- Aggregate product engagement strictly BEFORE cancellation (prevents post-churn activity leakage)
-    SELECT 
-        e.account_id,
-        COUNT(e.event_id) as total_events,
-        COUNT(CASE WHEN e.event_type = 'login' THEN 1 END) as login_count,
-        COUNT(CASE WHEN e.event_type = 'feature_use' THEN 1 END) as feature_use_count,
-        COUNT(CASE WHEN e.event_type = 'api_call' THEN 1 END) as api_call_count,
-        COUNT(CASE WHEN e.event_type = 'export' THEN 1 END) as export_count,
-        COUNT(CASE WHEN e.event_type = 'dashboard_view' THEN 1 END) as dashboard_view_count,
-        MAX(e.occurred_at) as last_event_time
-    FROM saas.events e
-    JOIN latest_sub s ON e.account_id = s.account_id
-    WHERE s.cancelled_at IS NULL OR e.occurred_at <= s.cancelled_at
-    GROUP BY e.account_id
-),
-user_metrics AS (
-    -- Aggregate provisioned seat adoption and login activity
-    SELECT 
-        account_id,
-        COUNT(user_id) as total_users,
-        MAX(last_login_date) as last_user_login
-    FROM saas.users
-    GROUP BY account_id
+with latest_subscriptions as (
+    select distinct on (s.account_id)
+        s.subscription_id
+      , s.account_id
+      , case 
+            when lower(trim(s.plan)) in ('pro', 'professional') then 'pro'
+            when lower(trim(s.plan)) = 'enterprise' then 'enterprise'
+            when lower(trim(s.plan)) = 'starter' then 'starter'
+            when lower(trim(s.plan)) = 'free' then 'free'
+            else lower(trim(s.plan))
+        end as plan
+      , s.mrr
+      , coalesce(s.seat_count, 1) as seat_count
+      , s.status as subscription_status
+      , s.start_date as subscription_start_date
+      , s.cancelled_at
+      , s.cancellation_reason
+    from saas.subscriptions s
+    order by 
+        s.account_id
+      , case 
+            when s.status = 'active' then 1 
+            when s.status = 'churned' then 2 
+            when s.status = 'past_due' then 3
+            else 4 
+        end
+      , s.start_date desc
 )
-SELECT 
-    a.account_id,
-    a.name as company_name,
-    COALESCE(a.account_type, 'self_serve') as account_type,
-    COALESCE(LOWER(TRIM(a.industry)), 'unknown') as industry,
-    COALESCE(a.employee_count, 1) as employee_count,
-    CASE 
-        WHEN a.country = 'US' THEN 'United States'
-        ELSE COALESCE(a.country, 'Unknown')
-    END as country,
-    a.signup_date,
-    COALESCE(LOWER(TRIM(a.acquisition_channel)), 'unknown') as acquisition_channel,
-    
-    -- Subscription attributes
-    s.subscription_id,
-    s.plan,
-    s.mrr,
-    s.seat_count,
-    s.subscription_status,
-    s.subscription_start_date,
-    s.cancelled_at,
-    
-    -- Ground Truth Churn Target (1 = Churned, 0 = Active)
-    CASE 
-        WHEN s.subscription_status = 'churned' THEN 1
-        WHEN s.subscription_status = 'active' THEN 0
-        ELSE NULL
-    END as churn,
-    
-    -- Support distress metrics (clean zeros if no tickets)
-    COALESCE(t.total_tickets, 0) as total_tickets,
-    COALESCE(t.avg_csat, 0) as avg_csat,
-    COALESCE(t.urgent_tickets, 0) as urgent_tickets,
-    COALESCE(t.billing_tickets, 0) as billing_tickets,
-    
-    -- Payment friction metrics (clean zeros if no attempts/failures)
-    COALESCE(p.total_payment_attempts, 0) as total_payment_attempts,
-    COALESCE(p.failed_payment_attempts, 0) as failed_payment_attempts,
-    COALESCE(p.failed_payment_amount, 0) as failed_payment_amount,
-    
-    -- Engagement signals (clean zeros if no events)
-    COALESCE(e.total_events, 0) as total_events,
-    COALESCE(e.login_count, 0) as login_count,
-    COALESCE(e.feature_use_count, 0) as feature_use_count,
-    COALESCE(e.api_call_count, 0) as api_call_count,
-    COALESCE(e.export_count, 0) as export_count,
-    COALESCE(e.dashboard_view_count, 0) as dashboard_view_count,
-    e.last_event_time,
-    
-    -- User metrics
-    COALESCE(u.total_users, 1) as total_users,
-    u.last_user_login
 
-FROM saas.accounts a
-JOIN latest_sub s ON a.account_id = s.account_id
-LEFT JOIN ticket_metrics t ON a.account_id = t.account_id
-LEFT JOIN payment_metrics p ON a.account_id = p.account_id
-LEFT JOIN event_metrics e ON a.account_id = e.account_id
-LEFT JOIN user_metrics u ON a.account_id = u.account_id
-WHERE s.subscription_status IN ('active', 'churned')
-ORDER BY a.account_id;
+, support_ticket_metrics as (
+    select 
+        st.account_id
+      , count(st.ticket_id) as total_tickets
+      , round(coalesce(avg(st.csat), 0)::numeric, 2) as avg_csat
+      , count(case when st.priority in ('urgent', 'high') then 1 end) as urgent_tickets
+      , count(case when st.category = 'billing' then 1 end) as billing_tickets
+    from saas.support_tickets st
+    join latest_subscriptions sub
+        on st.account_id = sub.account_id
+    where sub.cancelled_at is null or st.opened_at <= sub.cancelled_at
+    group by 
+        st.account_id
+)
+
+, payment_attempt_metrics as (
+    select 
+        pa.account_id
+      , count(pa.attempt_id) as total_payment_attempts
+      , count(case when pa.status = 'failed' then 1 end) as failed_payment_attempts
+      , round(coalesce(sum(case when pa.status = 'failed' then pa.amount else 0 end), 0)::numeric, 2) as failed_payment_amount
+    from saas.payment_attempts pa
+    join latest_subscriptions sub
+        on pa.account_id = sub.account_id
+    where sub.cancelled_at is null or pa.attempted_at <= sub.cancelled_at
+    group by 
+        pa.account_id
+)
+
+, event_telemetry_metrics as (
+    select 
+        ev.account_id
+      , count(ev.event_id) as total_events
+      , count(case when ev.event_type = 'login' then 1 end) as login_count
+      , count(case when ev.event_type = 'feature_use' then 1 end) as feature_use_count
+      , count(case when ev.event_type = 'api_call' then 1 end) as api_call_count
+      , count(case when ev.event_type = 'export' then 1 end) as export_count
+      , count(case when ev.event_type = 'dashboard_view' then 1 end) as dashboard_view_count
+      , max(ev.occurred_at) as last_event_time
+    from saas.events ev
+    join latest_subscriptions sub
+        on ev.account_id = sub.account_id
+    where sub.cancelled_at is null or ev.occurred_at <= sub.cancelled_at
+    group by 
+        ev.account_id
+)
+
+, user_seat_metrics as (
+    select 
+        u.account_id
+      , count(u.user_id) as total_users
+      , max(u.last_login_date) as last_user_login
+    from saas.users u
+    group by 
+        u.account_id
+)
+
+select 
+    acc.account_id
+  , acc.name as company_name
+  , coalesce(acc.account_type, 'self_serve') as account_type
+  , coalesce(lower(trim(acc.industry)), 'unknown') as industry
+  , coalesce(acc.employee_count, 1) as employee_count
+  , case 
+        when acc.country = 'US' then 'United States'
+        else coalesce(acc.country, 'Unknown')
+    end as country
+  , acc.signup_date
+  , coalesce(lower(trim(acc.acquisition_channel)), 'unknown') as acquisition_channel
+  , sub.subscription_id
+  , sub.plan
+  , sub.mrr
+  , sub.seat_count
+  , sub.subscription_status
+  , sub.subscription_start_date
+  , sub.cancelled_at
+  , case 
+        when sub.subscription_status = 'churned' then 1
+        when sub.subscription_status = 'active' then 0
+        else null
+    end as churn
+  , coalesce(stm.total_tickets, 0) as total_tickets
+  , coalesce(stm.avg_csat, 0) as avg_csat
+  , coalesce(stm.urgent_tickets, 0) as urgent_tickets
+  , coalesce(stm.billing_tickets, 0) as billing_tickets
+  , coalesce(pam.total_payment_attempts, 0) as total_payment_attempts
+  , coalesce(pam.failed_payment_attempts, 0) as failed_payment_attempts
+  , coalesce(pam.failed_payment_amount, 0) as failed_payment_amount
+  , coalesce(etm.total_events, 0) as total_events
+  , coalesce(etm.login_count, 0) as login_count
+  , coalesce(etm.feature_use_count, 0) as feature_use_count
+  , coalesce(etm.api_call_count, 0) as api_call_count
+  , coalesce(etm.export_count, 0) as export_count
+  , coalesce(etm.dashboard_view_count, 0) as dashboard_view_count
+  , etm.last_event_time
+  , coalesce(usm.total_users, 1) as total_users
+  , usm.last_user_login
+from saas.accounts acc
+join latest_subscriptions sub
+    on acc.account_id = sub.account_id
+left join support_ticket_metrics stm
+    on acc.account_id = stm.account_id
+left join payment_attempt_metrics pam
+    on acc.account_id = pam.account_id
+left join event_telemetry_metrics etm
+    on acc.account_id = etm.account_id
+left join user_seat_metrics usm
+    on acc.account_id = usm.account_id
+where sub.subscription_status in ('active', 'churned')
+order by 
+    acc.account_id;

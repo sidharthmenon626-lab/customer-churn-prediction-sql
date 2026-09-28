@@ -1,8 +1,8 @@
-﻿pandas>=2.0.0
+# Core Data Science & Database Dependencies
+psycopg2-binary==2.9.11
+python-dotenv==1.2.2
+pandas>=2.0.0
 numpy>=1.24.0
 scikit-learn>=1.3.0
 matplotlib>=3.7.0
 seaborn>=0.12.0
-psycopg2-binary>=2.9.0
-python-dotenv>=1.0.0
-ipykernel>=6.25.0

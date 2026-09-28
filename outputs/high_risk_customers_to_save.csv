@@ -1,0 +1,222 @@
+account_id,company_name,mrr,churn_prob,risk_tier,tenure_months,primary_churn_driver,plan,country
+100307,VeloCity,521.99,1.0,High,5.4,Product Disengagement (Declining Usage),enterprise,United States
+100271,CodeCraft,504.21,1.0,High,6.0,Product Disengagement (Declining Usage),enterprise,United States
+100475,ScaleUp,460.25,1.0,High,4.7,Product Disengagement (Declining Usage),enterprise,United States
+100542,TechVentures,404.75,1.0,High,3.4,Product Disengagement (Declining Usage),enterprise,United States
+100249,Innovate Labs,30.72,1.0,High,7.2,Product Disengagement (Declining Usage),starter,United States
+100134,SynapseAI,515.38,0.9986,High,0.0,Onboarding Friction (Early-Life Retention Cliff),enterprise,United States
+100218,Acme Corp,169.02,0.9977,High,1.0,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+100257,NexGen,91.82,0.9977,High,10.1,Product Disengagement (Declining Usage),pro,United States
+100234,BluePrint,88.06,0.9977,High,3.6,Product Disengagement (Declining Usage),pro,United States
+100558,FlexTech,81.89,0.9977,High,7.0,Product Disengagement (Declining Usage),pro,United States
+100964,CoreStack,66.23,0.9977,High,10.0,Product Disengagement (Declining Usage),pro,United States
+100652,BluePrint,540.38,0.9967,High,3.9,Product Disengagement (Declining Usage),enterprise,United States
+100242,NexGen,0.0,0.9962,High,1.5,Onboarding Friction (Early-Life Retention Cliff),enterprise,United States
+100373,Innovate Labs,24.19,0.9938,High,6.0,Product Disengagement (Declining Usage),starter,United States
+100584,CloudNine,0.0,0.9938,High,9.3,Product Disengagement (Declining Usage),free,United States
+100729,CloudNine,0.0,0.9938,High,2.8,Onboarding Friction (Early-Life Retention Cliff),free,United States
+100492,CoreStack,565.37,0.9933,High,5.0,Product Disengagement (Declining Usage),enterprise,United States
+100987,ScaleUp,533.31,0.9919,High,6.4,Product Disengagement (Declining Usage),enterprise,United States
+100425,StreamLine,486.58,0.9905,High,5.1,Product Disengagement (Declining Usage),enterprise,United States
+100960,TechVentures,177.07,0.9882,High,2.4,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+100795,PivotPoint,120.6,0.9882,High,2.6,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+100445,Innovate Labs,153.55,0.9876,High,3.1,Product Disengagement (Declining Usage),pro,United States
+100175,FusionX,571.81,0.9852,High,3.6,Product Disengagement (Declining Usage),enterprise,United States
+200154,"Ramirez, Strickland and Washington",0.0,0.9851,High,3.0,Support Distress (Urgent Tickets / High Velocity),pro,UK
+200091,"Smith, Montoya and Evans",0.0,0.9848,High,2.0,Support Distress (Urgent Tickets / High Velocity),pro,Germany
+200204,Nexel Technologies,0.0,0.9837,High,3.4,Support Distress (Urgent Tickets / High Velocity),starter,India
+200145,Stafford Inc,0.0,0.983,High,3.7,Support Distress (Urgent Tickets / High Velocity),starter,United States
+200014,Williams and Sons,0.0,0.9807,High,3.0,Support Distress (Urgent Tickets / High Velocity),starter,Germany
+100336,Acme Corp,0.0,0.9793,High,5.7,Product Disengagement (Declining Usage),free,United States
+100432,FusionX,0.0,0.9788,High,6.0,Product Disengagement (Declining Usage),free,United States
+200015,Galloway-Wyatt,0.0,0.978,High,3.1,Support Distress (Urgent Tickets / High Velocity),starter,United States
+200061,Powell LLC,0.0,0.973,High,0.2,Support Distress (Urgent Tickets / High Velocity),pro,Germany
+100958,ScaleUp,484.51,0.9727,High,3.6,Product Disengagement (Declining Usage),enterprise,United States
+200066,Williams PLC,0.0,0.9723,High,2.4,Support Distress (Urgent Tickets / High Velocity),starter,Canada
+100264,Acme Corp,434.0,0.9719,High,1.9,Onboarding Friction (Early-Life Retention Cliff),enterprise,United States
+200002,"Mcclain, Miller and Henderson",0.0,0.9716,High,4.6,Payment Failure (Involuntary Dunning Friction),enterprise,Australia
+200089,Moore-Bass,0.0,0.9714,High,8.7,Support Distress (Urgent Tickets / High Velocity),pro,India
+100449,FlexTech,496.86,0.9705,High,3.6,Product Disengagement (Declining Usage),enterprise,United States
+100019,CodeCraft,78.75,0.9702,High,0.0,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+100931,BluePrint,93.63,0.9701,High,1.5,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+100900,Acme Corp,0.0,0.9699,High,0.0,Onboarding Friction (Early-Life Retention Cliff),free,United States
+200115,Walker Ltd,0.0,0.9675,High,5.5,Support Distress (Urgent Tickets / High Velocity),starter,Canada
+200121,Johnson-Carlson,0.0,0.967,High,9.0,Support Distress (Urgent Tickets / High Velocity),pro,Germany
+100073,TechVentures,86.87,0.9667,High,3.6,Product Disengagement (Declining Usage),pro,United States
+100979,BluePrint,422.35,0.9647,High,2.8,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100448,FlexTech,120.33,0.9647,High,1.8,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+100023,NetPulse,491.98,0.9644,High,1.3,Onboarding Friction (Early-Life Retention Cliff),enterprise,United States
+100229,BluePrint,519.86,0.9642,High,2.6,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+200084,"Evans, Stewart and Walton",0.0,0.9635,High,4.2,Support Distress (Urgent Tickets / High Velocity),enterprise,India
+200232,Strato Analytics,0.0,0.9634,High,7.0,Support Distress (Urgent Tickets / High Velocity),starter,India
+100334,FlexTech,440.64,0.9625,High,6.3,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100878,TechVentures,166.0,0.9625,High,7.2,Product Disengagement (Declining Usage),pro,United States
+100427,BluePrint,425.92,0.9617,High,4.2,Product Disengagement (Declining Usage),enterprise,United States
+100622,BluePrint,65.47,0.9613,High,0.0,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+100950,DataFlow Inc,538.5,0.9608,High,1.8,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100219,ByteForge,72.11,0.9603,High,0.0,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+100684,RapidScale,537.05,0.96,High,2.4,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100222,StreamLine,71.04,0.96,High,3.8,Payment Failure (Involuntary Dunning Friction),pro,United States
+100072,BluePrint,25.79,0.9599,High,1.6,Payment Failure (Involuntary Dunning Friction),starter,United States
+100077,FlexTech,457.38,0.9592,High,1.1,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100132,DigiWorks,475.05,0.9591,High,2.7,Onboarding Friction (Early-Life Retention Cliff),enterprise,United States
+100308,TechVentures,27.54,0.9566,High,5.7,Product Disengagement (Declining Usage),starter,United States
+100391,Innovate Labs,547.6,0.956,High,2.1,Onboarding Friction (Early-Life Retention Cliff),enterprise,United States
+200207,Cendra Analytics,0.0,0.9557,High,3.9,Product Disengagement (Declining Usage),starter,India
+100919,DigiWorks,429.98,0.9553,High,2.7,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100381,FlexTech,560.37,0.9547,High,8.0,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100420,SynapseAI,67.45,0.9544,High,5.9,Product Disengagement (Declining Usage),pro,United States
+100458,RapidScale,92.57,0.9542,High,0.0,Payment Failure (Involuntary Dunning Friction),pro,United States
+100361,FlexTech,0.0,0.9538,High,2.9,Payment Failure (Involuntary Dunning Friction),free,United States
+200221,Loopwell Systems,0.0,0.9522,High,6.0,Support Distress (Urgent Tickets / High Velocity),enterprise,India
+100423,FlexTech,27.01,0.9514,High,3.9,Product Disengagement (Declining Usage),starter,United States
+200160,Brown-Wall,0.0,0.9505,High,9.2,Support Distress (Urgent Tickets / High Velocity),enterprise,United States
+200034,"Dyer, Potter and Mack",0.0,0.9502,High,5.2,Support Distress (Urgent Tickets / High Velocity),starter,Canada
+100306,CloudNine,65.65,0.9496,High,4.4,Payment Failure (Involuntary Dunning Friction),pro,United States
+100636,ByteForge,79.71,0.9495,High,2.0,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+100402,TechVentures,597.61,0.949,High,4.0,Product Disengagement (Declining Usage),enterprise,United States
+100740,FlexTech,84.62,0.9474,High,6.3,Product Disengagement (Declining Usage),pro,United States
+100803,DigiWorks,425.25,0.9471,High,6.6,Product Disengagement (Declining Usage),enterprise,United States
+100703,StreamLine,0.0,0.9461,High,3.4,Payment Failure (Involuntary Dunning Friction),free,United States
+100139,BluePrint,551.7,0.9458,High,2.1,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+101000,PivotPoint,510.13,0.9454,High,8.8,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100951,Innovate Labs,93.73,0.9449,High,0.0,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+100881,ByteForge,0.0,0.9447,High,4.3,Product Disengagement (Declining Usage),free,United States
+100302,Innovate Labs,73.28,0.9445,High,0.0,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+200082,Donovan-Harris,0.0,0.9443,High,8.0,Payment Failure (Involuntary Dunning Friction),enterprise,Germany
+100968,NexGen,150.34,0.9441,High,2.5,Payment Failure (Involuntary Dunning Friction),pro,United States
+100156,DigiWorks,135.82,0.9438,High,8.0,Payment Failure (Involuntary Dunning Friction),pro,United States
+100889,Acme Corp,577.69,0.943,High,0.0,Onboarding Friction (Early-Life Retention Cliff),enterprise,United States
+100159,PivotPoint,161.38,0.9425,High,1.8,Payment Failure (Involuntary Dunning Friction),pro,United States
+200244,Nexel Technologies,0.0,0.9425,High,9.0,Support Distress (Urgent Tickets / High Velocity),pro,India
+100629,RapidScale,137.73,0.9422,High,3.3,Payment Failure (Involuntary Dunning Friction),pro,United States
+100914,VeloCity,0.0,0.9421,High,3.6,Product Disengagement (Declining Usage),free,United States
+100911,Acme Corp,147.43,0.9414,High,3.2,Payment Failure (Involuntary Dunning Friction),pro,United States
+100224,PivotPoint,566.6,0.9412,High,2.4,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100935,SynapseAI,94.45,0.9408,High,4.8,Payment Failure (Involuntary Dunning Friction),pro,United States
+100147,NexGen,0.0,0.9406,High,0.0,Payment Failure (Involuntary Dunning Friction),pro,United States
+100324,RapidScale,74.74,0.9399,High,3.1,Product Disengagement (Declining Usage),pro,United States
+100397,PivotPoint,144.46,0.9398,High,2.6,Payment Failure (Involuntary Dunning Friction),pro,United States
+100211,TechVentures,87.93,0.9397,High,4.6,Payment Failure (Involuntary Dunning Friction),pro,United States
+100705,StreamLine,139.59,0.9388,High,8.4,Payment Failure (Involuntary Dunning Friction),pro,United States
+100670,Innovate Labs,0.0,0.9386,High,3.8,Product Disengagement (Declining Usage),free,United States
+100810,VeloCity,536.11,0.9376,High,1.4,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100138,SynapseAI,90.95,0.9363,High,8.9,Product Disengagement (Declining Usage),pro,United States
+100146,ByteForge,67.08,0.9362,High,4.0,Product Disengagement (Declining Usage),pro,United States
+100531,CloudNine,87.67,0.936,High,1.8,Payment Failure (Involuntary Dunning Friction),pro,United States
+100651,NexGen,69.29,0.9358,High,3.4,Payment Failure (Involuntary Dunning Friction),pro,United States
+100008,CoreStack,65.23,0.9357,High,4.2,Payment Failure (Involuntary Dunning Friction),pro,United States
+100038,DigiWorks,537.58,0.9355,High,2.7,Onboarding Friction (Early-Life Retention Cliff),enterprise,United States
+100112,ByteForge,34.45,0.9353,High,2.1,Payment Failure (Involuntary Dunning Friction),starter,United States
+100845,NetPulse,27.28,0.935,High,2.0,Payment Failure (Involuntary Dunning Friction),starter,United States
+100811,StreamLine,27.06,0.9348,High,8.3,Payment Failure (Involuntary Dunning Friction),starter,United States
+100604,CoreStack,89.13,0.934,High,5.3,Payment Failure (Involuntary Dunning Friction),pro,United States
+200055,Jones-Young,0.0,0.934,High,10.8,Support Distress (Urgent Tickets / High Velocity),starter,United States
+100765,Innovate Labs,470.28,0.9339,High,4.0,Product Disengagement (Declining Usage),enterprise,United States
+100416,StreamLine,30.07,0.9338,High,4.9,Product Disengagement (Declining Usage),starter,United States
+100783,ScaleUp,556.7,0.9337,High,4.1,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100551,NexGen,147.1,0.9336,High,5.3,Payment Failure (Involuntary Dunning Friction),pro,United States
+100298,VeloCity,0.0,0.9335,High,0.0,Payment Failure (Involuntary Dunning Friction),free,United States
+100758,DataFlow Inc,0.0,0.9333,High,6.7,Payment Failure (Involuntary Dunning Friction),free,United States
+100093,NexGen,541.13,0.9332,High,3.0,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100246,PivotPoint,120.67,0.9332,High,6.5,Payment Failure (Involuntary Dunning Friction),pro,United States
+100553,TechVentures,0.0,0.9331,High,1.1,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100131,CodeCraft,0.0,0.9325,High,3.8,Payment Failure (Involuntary Dunning Friction),free,United States
+100288,Acme Corp,85.32,0.932,High,7.1,Product Disengagement (Declining Usage),pro,United States
+100266,CloudNine,92.71,0.9319,High,5.1,Payment Failure (Involuntary Dunning Friction),pro,United States
+100398,SynapseAI,27.13,0.931,High,10.1,Payment Failure (Involuntary Dunning Friction),starter,United States
+100967,Acme Corp,72.89,0.9308,High,1.1,Onboarding Friction (Early-Life Retention Cliff),pro,United States
+100056,DataFlow Inc,570.39,0.9305,High,1.4,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100226,CoreStack,518.52,0.9302,High,3.0,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100085,CodeCraft,122.75,0.9295,High,7.9,Payment Failure (Involuntary Dunning Friction),pro,United States
+100415,Acme Corp,130.23,0.9276,High,8.9,Product Disengagement (Declining Usage),pro,United States
+100870,NetPulse,65.87,0.9276,High,6.1,Product Disengagement (Declining Usage),pro,United States
+100098,CodeCraft,84.38,0.9274,High,8.6,Payment Failure (Involuntary Dunning Friction),pro,United States
+100181,Innovate Labs,31.77,0.9271,High,4.7,Product Disengagement (Declining Usage),starter,United States
+100959,DataFlow Inc,0.0,0.927,High,3.0,Onboarding Friction (Early-Life Retention Cliff),free,United States
+100453,ScaleUp,67.32,0.9265,High,0.0,Payment Failure (Involuntary Dunning Friction),pro,United States
+100013,PivotPoint,26.32,0.9259,High,9.5,Payment Failure (Involuntary Dunning Friction),starter,United States
+100857,Innovate Labs,80.5,0.9258,High,4.9,Product Disengagement (Declining Usage),pro,United States
+100180,RapidScale,31.83,0.9256,High,8.1,Payment Failure (Involuntary Dunning Friction),starter,United States
+100933,FlexTech,88.13,0.9255,High,5.5,Product Disengagement (Declining Usage),pro,United States
+100875,CodeCraft,27.52,0.9253,High,8.8,Payment Failure (Involuntary Dunning Friction),starter,United States
+100338,FlexTech,482.96,0.9239,High,9.2,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100982,PivotPoint,0.0,0.9239,High,4.2,Product Disengagement (Declining Usage),free,United States
+100527,CoreStack,90.82,0.9234,High,4.2,Product Disengagement (Declining Usage),pro,United States
+100452,DigiWorks,24.6,0.9222,High,8.3,Payment Failure (Involuntary Dunning Friction),starter,United States
+100210,DataFlow Inc,0.0,0.921,High,7.6,Payment Failure (Involuntary Dunning Friction),free,United States
+200239,Kitewave Technologies,0.0,0.9204,High,5.2,Payment Failure (Involuntary Dunning Friction),enterprise,India
+100617,PivotPoint,33.98,0.9202,High,7.6,Payment Failure (Involuntary Dunning Friction),starter,United States
+100638,RapidScale,172.58,0.9199,High,7.1,Payment Failure (Involuntary Dunning Friction),pro,United States
+100184,ByteForge,33.27,0.9191,High,7.0,Product Disengagement (Declining Usage),starter,United States
+100054,PivotPoint,0.0,0.9189,High,0.0,Onboarding Friction (Early-Life Retention Cliff),free,United States
+100995,Acme Corp,517.7,0.9188,High,9.2,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100164,NetPulse,85.83,0.9185,High,6.9,Product Disengagement (Declining Usage),pro,United States
+100194,DataFlow Inc,85.21,0.918,High,5.5,Payment Failure (Involuntary Dunning Friction),pro,United States
+100943,DataFlow Inc,77.6,0.9163,High,7.5,Payment Failure (Involuntary Dunning Friction),pro,United States
+100985,VeloCity,439.66,0.9159,High,8.8,Product Disengagement (Declining Usage),enterprise,United States
+100599,Innovate Labs,81.66,0.9157,High,9.3,Payment Failure (Involuntary Dunning Friction),pro,United States
+100975,DataFlow Inc,74.23,0.9144,High,7.9,Product Disengagement (Declining Usage),pro,United States
+100495,BluePrint,483.62,0.9141,High,8.0,Product Disengagement (Declining Usage),enterprise,United States
+100357,StreamLine,523.08,0.9106,High,7.4,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100681,Acme Corp,170.64,0.9105,High,9.0,Payment Failure (Involuntary Dunning Friction),pro,United States
+100981,Acme Corp,68.26,0.9093,High,2.7,Payment Failure (Involuntary Dunning Friction),pro,United States
+100869,PivotPoint,158.41,0.9088,High,8.8,Payment Failure (Involuntary Dunning Friction),pro,United States
+100047,PivotPoint,33.75,0.9075,High,2.5,Payment Failure (Involuntary Dunning Friction),starter,United States
+100240,NetPulse,31.82,0.9075,High,9.3,Product Disengagement (Declining Usage),starter,United States
+100762,FlexTech,587.1,0.9074,High,4.4,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+200100,Figueroa PLC,0.0,0.9072,High,9.1,Support Distress (Urgent Tickets / High Velocity),pro,Australia
+100446,CodeCraft,86.3,0.9067,High,3.4,Payment Failure (Involuntary Dunning Friction),pro,United States
+100477,CoreStack,585.06,0.9061,High,9.6,Product Disengagement (Declining Usage),enterprise,United States
+100750,DigiWorks,128.57,0.9052,High,10.0,Product Disengagement (Declining Usage),pro,United States
+100818,CoreStack,27.78,0.9036,High,9.4,Payment Failure (Involuntary Dunning Friction),starter,United States
+100873,CoreStack,31.38,0.9033,High,10.6,Product Disengagement (Declining Usage),starter,United States
+100691,DigiWorks,594.5,0.9025,High,9.9,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100055,NexGen,522.69,0.8999,High,1.3,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100154,ScaleUp,29.62,0.8991,High,6.6,Payment Failure (Involuntary Dunning Friction),starter,United States
+100775,CoreStack,32.1,0.8974,High,6.1,Payment Failure (Involuntary Dunning Friction),starter,United States
+100732,FlexTech,0.0,0.8974,High,4.9,Payment Failure (Involuntary Dunning Friction),free,United States
+100193,BluePrint,588.29,0.8972,High,5.0,Product Disengagement (Declining Usage),enterprise,United States
+100063,BluePrint,33.75,0.8964,High,4.4,Product Disengagement (Declining Usage),starter,United States
+100850,Innovate Labs,148.97,0.896,High,9.8,Payment Failure (Involuntary Dunning Friction),pro,United States
+100044,FlexTech,78.64,0.8956,High,6.6,Payment Failure (Involuntary Dunning Friction),pro,United States
+100860,PivotPoint,26.49,0.8914,High,11.2,Product Disengagement (Declining Usage),starter,United States
+200004,"Guzman, Hoffman and Baldwin",0.0,0.8874,High,10.8,Payment Failure (Involuntary Dunning Friction),starter,India
+100254,NexGen,78.19,0.8869,High,9.4,Payment Failure (Involuntary Dunning Friction),pro,United States
+100890,TechVentures,591.39,0.8855,High,10.2,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100846,DigiWorks,163.94,0.8855,High,10.5,Product Disengagement (Declining Usage),pro,United States
+100119,RapidScale,31.4,0.8852,High,10.2,Payment Failure (Involuntary Dunning Friction),starter,United States
+100348,Acme Corp,69.09,0.8851,High,10.3,Product Disengagement (Declining Usage),pro,United States
+100035,Innovate Labs,80.95,0.884,High,8.8,Product Disengagement (Declining Usage),pro,United States
+100867,ScaleUp,146.92,0.8838,High,10.4,Payment Failure (Involuntary Dunning Friction),pro,United States
+100231,DataFlow Inc,166.83,0.8831,High,10.4,Product Disengagement (Declining Usage),pro,United States
+100702,FlexTech,0.0,0.8819,High,7.8,Product Disengagement (Declining Usage),free,United States
+100130,CoreStack,486.73,0.8816,High,7.3,Product Disengagement (Declining Usage),enterprise,United States
+100817,RapidScale,64.74,0.8798,High,7.4,Payment Failure (Involuntary Dunning Friction),pro,United States
+100571,TechVentures,70.22,0.8778,High,3.4,Payment Failure (Involuntary Dunning Friction),pro,United States
+100297,NetPulse,501.08,0.8765,High,8.9,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100020,CodeCraft,33.0,0.8765,High,4.8,Payment Failure (Involuntary Dunning Friction),starter,United States
+100195,DigiWorks,146.66,0.8753,High,10.7,Product Disengagement (Declining Usage),pro,United States
+100128,ByteForge,0.0,0.8753,High,6.6,Product Disengagement (Declining Usage),free,United States
+100280,Innovate Labs,416.57,0.8747,High,10.8,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100821,TechVentures,135.65,0.8737,High,9.3,Product Disengagement (Declining Usage),pro,United States
+100579,StreamLine,78.47,0.8727,High,10.9,Product Disengagement (Declining Usage),pro,United States
+100794,FlexTech,0.0,0.8716,High,9.0,Product Disengagement (Declining Usage),pro,United States
+100103,CoreStack,173.75,0.8626,High,10.7,Payment Failure (Involuntary Dunning Friction),pro,United States
+100239,VeloCity,81.16,0.8617,High,11.9,Product Disengagement (Declining Usage),pro,United States
+100331,BluePrint,473.86,0.8603,High,10.1,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100005,BluePrint,66.22,0.8596,High,8.8,Payment Failure (Involuntary Dunning Friction),pro,United States
+100831,VeloCity,74.47,0.8581,High,3.8,Payment Failure (Involuntary Dunning Friction),pro,United States
+100439,CodeCraft,585.26,0.8559,High,7.4,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100319,ScaleUp,497.76,0.8471,High,9.6,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100720,Innovate Labs,30.33,0.8471,High,10.0,Product Disengagement (Declining Usage),starter,United States
+100902,NexGen,73.5,0.836,High,10.3,Payment Failure (Involuntary Dunning Friction),pro,United States
+100993,FusionX,0.0,0.8294,High,11.0,Product Disengagement (Declining Usage),free,United States
+100204,BluePrint,24.56,0.8211,High,6.5,Product Disengagement (Declining Usage),starter,United States
+100865,SynapseAI,577.33,0.8129,High,11.0,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100230,TechVentures,0.0,0.7957,High,10.8,Payment Failure (Involuntary Dunning Friction),free,United States
+100621,ByteForge,410.2,0.7402,High,11.5,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100574,RapidScale,0.0,0.6371,High,11.1,Product Disengagement (Declining Usage),pro,United States
+100755,NetPulse,507.71,0.6257,High,11.8,Payment Failure (Involuntary Dunning Friction),enterprise,United States
+100592,DataFlow Inc,499.94,0.548,Medium,11.7,Product Disengagement (Declining Usage),enterprise,United States
+200031,Carlson-Cruz,0.0,0.5052,Medium,11.8,Support Distress (Urgent Tickets / High Velocity),pro,UK

@@ -54,6 +54,14 @@ flowchart TD
     end
 ```
 
+### Audited SQL Feature Queries & Pipeline Modules:
+
+| Pipeline Stage | Module / Query | Key Operational Logic | Anti-Leakage Safeguard |
+| :--- | :--- | :--- | :--- |
+| **Cohort Extraction** | [`sql/extract_customer_churn_cohort.sql`](sql/extract_customer_churn_cohort.sql) | Multi-CTE SQL query joining subscriptions, telemetry, billing, and CSAT | Strictly bounds events: `attempted_at <= cancelled_at` & `opened_at <= cancelled_at` |
+| **Data Ingestion** | [`src/extract_data.py`](src/extract_data.py) | Automated PostgreSQL ingestion and feature store materialization | Exports audited records to `data/raw_customer_churn.csv` (859 accounts) |
+| **Production Scoring** | [`src/predict.py`](src/predict.py) | Point-in-time ($T_0$) inference pipeline on rolling 30-day forward churn horizon | Evaluates behavioral decay without retrospective tenure survivorship bias |
+
 ---
 
 ## 3. Exploratory Data Analysis & Behavioral Drivers
@@ -81,6 +89,10 @@ We benchmarked a linear baseline (**Logistic Regression**) against an ensemble o
 | **Random Forest ($p=0.50$)** | **98.26%** | **0.9949** | **0.9891** | **100.00%** | **93.62%** | **96.70%** | **44** | **0** | **3** |
 | **Random Forest ($p=0.35$ - Tuned)** | 97.67% | **0.9949** | **0.9891** | 97.78% | **93.62%** | 95.65% | **44** | 1 | **3** |
 | **Random Forest ($p=0.20$ - Rescue)** | 96.51% | **0.9949** | **0.9891** | 91.84% | **95.74%** | 93.75% | **45** | 4 | **2** |
+
+> [!NOTE]
+> **Methodological Note on Survivorship Bias & Production Roadmap:**  
+> Retrospective cohort analysis inherently exhibits survivorship bias on tenure ($r = -0.62$, 0.995 ROC-AUC), as calculating tenure up to customer exit partially encodes total customer lifespan rather than pure behavioral decay. In our production inference roadmap ([`src/predict.py`](src/predict.py)), this is resolved via point-in-time temporal hygiene—evaluating active accounts strictly against a rolling 30-day forward prediction horizon over a 90-day lookback window ($T_0$), normalizing model discrimination to an operational ~0.85 ROC-AUC.
 
 ### Visual Model Comparison:
 | ROC & Precision-Recall Diagnostics | Decision Threshold Trade-offs |
@@ -140,7 +152,8 @@ customer-churn-prediction-sql/
 ├── sql/
 │   └── extract_customer_churn_cohort.sql      # Audited, leak-free PostgreSQL query
 ├── src/
-│   └── extract_data.py                        # Automated database ingestion pipeline
+│   ├── extract_data.py                        # Automated database ingestion pipeline
+│   └── predict.py                             # Point-in-time production inference pipeline
 ├── data/                                      # Data directory (git-ignored for hygiene)
 │   ├── raw_customer_churn.csv                 # Raw PostgreSQL extraction (859 x 32)
 │   └── processed_features.csv                 # Engineered feature matrix (859 x 48)
